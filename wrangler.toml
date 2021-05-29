@@ -1,0 +1,10 @@
+name = "murrr-space"
+type = 'webpack'
+route = 'murrr.space/*'
+usage_model = ''
+workers_dev = true
+target_type = "webpack"
+
+[site]
+bucket = "./public" # <-- Add your build directory name here!
+entry-point = "workers-site"
