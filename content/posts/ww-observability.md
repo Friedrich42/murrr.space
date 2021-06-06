@@ -1,7 +1,7 @@
 ---
 title: "What is observability and why do we need it?"
-date: 2021-05-29T01:54:17+04:00
-lastmod: 2021-05-30T16:13:29+04:00
+date: 2021-06-06T17:01:48+04:00
+lastmod: 2021-06-06T17:01:53+04:00
 slug: "ww-observability"
 draft: false
 categories:
