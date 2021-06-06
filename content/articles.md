@@ -1,7 +1,6 @@
 ---
 title: Articles
-subtitle: Posts, tutorials, snippets, musings, and everything else.
-date: 2020-11-26
+subtitle: My thoughts and some useful guides
 type: section
 layout: "archives"
 ---
