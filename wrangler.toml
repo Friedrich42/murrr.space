@@ -3,7 +3,7 @@ usage_model = ''
 target_type = "webpack"
 
 [site]
-bucket = "./dist" # <-- Add your build directory name here!
+bucket = "./public"
 entry-point = "workers-site"
 
 [env.staging]
