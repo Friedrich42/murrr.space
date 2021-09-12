@@ -23,7 +23,7 @@ This article will show step by step how to create a blog just like this one.
 ## Tech stack
 
 I think markdown is the best format for writing any kind of documentation or blog,
-because of its simplisity.
+because of its simplicity.
 
 My blog does not contain anything except text, some style files, and images
 so I decided to use something simple and statically-compiled.
@@ -32,7 +32,7 @@ Hugo is a cli tool that compiles `.md` files into static files that you can serv
 It is very easy to start working with hugo,
 you can check its getting started article [here](https://gohugo.io/getting-started/quick-start/).
 
-I am opiniated that git flow is very good for such kind of development as blog,
+I am opinionated that git flow is very good for such kind of development as blog,
 so I am hosting my blog on github and using github actions to deploy it.
 When it comes to serving, I think cloudflare workers are the best match for start.
 You can use quota up to 100,000 requests per day, which is more than enough for beginning.
@@ -82,6 +82,29 @@ Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
 ```
 Open [the address](http://localhost:1313/) in your browser and you should see your landing web page.
 ![Empty hugo site](img/empty-hugo-site.png)
+
+### Push to git
+
+Add a file named `.gitignore` with following contents to your project folder
+```gitignore
+# Created by https://www.toptal.com/developers/gitignore/api/hugo
+# Edit at https://www.toptal.com/developers/gitignore?templates=hugo
+
+### Hugo ###
+# Generated files by hugo
+/public/
+/resources/_gen/
+hugo_stats.json
+
+# Executable may be added to repository
+hugo.exe
+hugo.darwin
+hugo.linux
+
+# End of https://www.toptal.com/developers/gitignore/api/hugo
+
+dist/
+```
 
 Now you should push your repository to github. 
 If you are not sure how to do it, check the guide [here](https://docs.github.com/en/github/importing-your-projects-to-github/importing-source-code-to-github/adding-an-existing-project-to-github-using-the-command-line#adding-a-project-to-github-without-github-cli).
