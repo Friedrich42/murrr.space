@@ -7,7 +7,7 @@ bucket = "./public"
 entry-point = "workers-site"
 
 [env.staging]
-name = "dev-workers"
+name = "murrr-space"
 usage_model = ''
 workers_dev = true
 
