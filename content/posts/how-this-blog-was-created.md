@@ -1,15 +1,16 @@
 ---
 title: "How to create a tech blog"
 date: 2021-09-12T21:18:57+04:00
-lastmod: 2021-09-12T21:19:16+04:00
+lastmod: 2021-09-13T06:18:06+04:00
 slug: "how-to-create-a-tech-blog"
 draft: false
 categories:
-- Hugo
+- Blog management
 tags:
 - hugo
-- blogging
 - blog
+- wrangler
+- cloudflare
 ---
 
 This article will show step by step how to create a blog just like this one.
@@ -118,7 +119,7 @@ At this stage you should have your hugo project in github.
 You will need wrangler installed on your computer to make an initial deploy and check if everything works correctly.
 Check tutorial [here](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
 
-Cloudflare worker requires three variables
+Cloudflare worker requires three secrets
 * CF_ACCOUNT_ID
 * CF_ZONE_ID
 * CF_API_TOKEN
@@ -131,7 +132,8 @@ For api token go to [this](https://dash.cloudflare.com/profile/api-tokens) page.
 Press `Create Token` button, in a new page select `Edit Cloudflare Workers` as a template.
 Copy your api token and save it in a **safe place**.
 
-Then go to your github repository page, navigate to `Settings` and find `Secrets` tab.
+Adding these secrets to github is nessecary for pipeline, so we'll do it right away.
+Go to your github repository page, navigate to `Settings` and find `Secrets` tab.
 Add your secrets to repository by pressing `New repository secret`.
 
 ![Add secrets to github repository](img/github-cloudflare-secrets-new.png)
