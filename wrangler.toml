@@ -1,10 +1,18 @@
-name = "murrr-space"
 type = 'webpack'
-route = 'murrr.space/*'
 usage_model = ''
-workers_dev = true
 target_type = "webpack"
 
 [site]
-bucket = "./public" # <-- Add your build directory name here!
+bucket = "./public"
 entry-point = "workers-site"
+
+[env.staging]
+name = "murrr-space-dev"
+usage_model = ''
+workers_dev = true
+
+[env.production]
+name = "murrr-space"
+workers_dev = false
+route = 'murrr.space/*'
+
