@@ -16,8 +16,9 @@ This article will show step by step how to create a blog just like this one.
 
 ## Assumptions
 
+* You can work with terminal (bash, zsh, fish, etc.).
 * You can work with [git](https://git-scm.com/) and familiar with [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-* You are familiar with [cloudflare](https://www.cloudflare.com/), ideally worked with it earlier.
+* You are familiar with [cloudflare](https://www.cloudflare.com/), ideally worked with it earlier and your domain is parked on cloudflare.
 * You are familiar with [hugo](https://gohugo.io/)
 
 ## Tech stack
@@ -112,5 +113,77 @@ You should skip `git init -b main` command that is provided in the github's tuto
 
 At this stage you should have your hugo project in github.
 
-### Configure pipeline
+### Deploying from local machine
 
+You will need wrangler installed on your computer to make an initial deploy and check if everything works correctly.
+Check tutorial [here](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
+
+Cloudflare worker requires three variables
+* CF_ACCOUNT_ID
+* CF_ZONE_ID
+* CF_API_TOKEN
+
+You can get first two of them from `Overview` of your domain in cloudflare, scroll to the very bottom of the page.
+
+![Copy cloudflare zone id and account id](img/cloudflare-account-and-zone-ids-copy.png)
+
+For api token go to [this](https://dash.cloudflare.com/profile/api-tokens) page.
+Press `Create Token` button, in a new page select `Edit Cloudflare Workers` as a template.
+Copy your api token and save it in a **safe place**.
+
+Then go to your github repository page, navigate to `Settings` and find `Secrets` tab.
+Add your secrets to repository by pressing `New repository secret`.
+
+![Add secrets to github repository](img/github-cloudflare-secrets-new.png)
+
+Return to your terminal. Now you need to authorize your wrangler cli.
+Run
+```bash
+$ wrangler login
+```
+This will open a browser window, where you should confirm that you want to authorize the application.
+
+
+Then go to the project folder and create a file named `wrangler.toml` with following contents.
+```toml
+type = 'webpack'
+
+[site]
+bucket = "./public"
+entry-point = "workers-site"
+
+[env.staging]
+name = "blogg-domain-dev"
+usage_model = ''
+workers_dev = true
+
+[env.production]
+name = "blogg-domain"
+workers_dev = false
+route = 'blogg.domain/*'
+```
+
+Substitute `name` keys in `env.staging` and `env.production`; also substitute `route` to your site's one.
+
+Run
+```bash
+$ hugo --minify --gc
+```
+
+This will create a static build of the site.
+
+Now you need to export cloudflare variables.
+
+Run
+```bash
+export CF_ACCOUNT_ID=value you got from cloudflare
+export CF_ZONE_ID=value you got from cloudflare
+```
+
+Then you need to run
+```bash
+$ wrangler build # <-- build worker
+$ wrangler publish -c wrangler.toml --env production # <-- publish your site to worker
+```
+
+At this stage you should be able to view the site on your domain.
