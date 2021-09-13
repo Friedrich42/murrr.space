@@ -11,6 +11,8 @@ tags:
 - blog
 - wrangler
 - cloudflare
+- github
+description: "Complete guide how to create static blog site using hugo, github, wrangler, and cloudflare workers"
 ---
 
 This article will show step by step how to create a blog just like this one.
@@ -32,7 +34,7 @@ so I decided to use something simple and statically-compiled.
 I chose hugo framework, because it is super fast, easy to use, and configure.
 Hugo is a cli tool that compiles `.md` files into static files that you can serve later using nginx or some other technology of your choice.
 It is very easy to start working with hugo,
-you can check its getting started article [here](https://gohugo.io/getting-started/quick-start/).
+you can check its [getting started article](https://gohugo.io/getting-started/quick-start/).
 
 I am opinionated that git flow is very good for such kind of development as blog,
 so I am hosting my blog on github and using github actions to deploy it.
@@ -55,7 +57,7 @@ $ git init
 ```
 This will create a new hugo site and initialize git repository in it.
 
-Then you have to choose a theme to use in your blog. You can find list of themes [here](https://themes.gohugo.io/).
+Then you have to choose a theme to use in your blog. There you can find [list of themes](https://themes.gohugo.io/).
 
 Pick one, click on it and you'll see a button `Download`, click on it.
 ![Download hugo tania](img/hugo-tania-download.png)
@@ -108,8 +110,7 @@ hugo.linux
 dist/
 ```
 
-Now you should push your repository to github. 
-If you are not sure how to do it, check the guide [here](https://docs.github.com/en/github/importing-your-projects-to-github/importing-source-code-to-github/adding-an-existing-project-to-github-using-the-command-line#adding-a-project-to-github-without-github-cli).
+Now you should [push your repository to github](https://docs.github.com/en/github/importing-your-projects-to-github/importing-source-code-to-github/adding-an-existing-project-to-github-using-the-command-line#adding-a-project-to-github-without-github-cli).
 You should skip `git init -b main` command that is provided in the github's tutorial, because we already executed it.
 
 At this stage you should have your hugo project in github.
@@ -117,7 +118,7 @@ At this stage you should have your hugo project in github.
 ### Deploying from local machine
 
 You will need wrangler installed on your computer to make an initial deploy and check if everything works correctly.
-Check tutorial [here](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
+Check this tutorial to [learn how to install wrangler](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
 
 Cloudflare worker requires three secrets
 * CF_ACCOUNT_ID
@@ -128,7 +129,7 @@ You can get first two of them from `Overview` of your domain in cloudflare, scro
 
 ![Copy cloudflare zone id and account id](img/cloudflare-account-and-zone-ids-copy.png)
 
-For api token go to [this](https://dash.cloudflare.com/profile/api-tokens) page.
+For api token go to [api tokens page](https://dash.cloudflare.com/profile/api-tokens).
 Press `Create Token` button, in a new page select `Edit Cloudflare Workers` as a template.
 Copy your api token and save it in a **safe place**.
 
@@ -274,3 +275,8 @@ jobs:
         CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
 ```
+
+## Conclusion
+
+This article is a complete guide on how to create a blog using hugo 
+and cloudflare workers with github actions as CI/CD.
