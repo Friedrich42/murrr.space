@@ -189,3 +189,88 @@ $ wrangler publish -c wrangler.toml --env production # <-- publish your site to 
 ```
 
 At this stage you should be able to view the site on your domain.
+
+### Configure pipeline
+
+As I mentioned earlier we will use github actions for CI/CD.
+
+Basically you've already done most of the work, now you just need to add 2 files to your repository.
+
+
+Deploy to staging when pull request is created against develop branch.
+
+`.github/workflows/deploy-staging.yml`
+
+```yaml
+name: Build & Publish to staging
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: 'latest'
+        extended: true
+
+    - name: Build site
+      run: hugo --minify --gc
+
+    - name: Publish to Workers Sites
+      uses: cloudflare/wrangler-action@1.3.0
+      with:
+        apiToken: ${{ secrets.CF_API_TOKEN }}
+        environment: 'staging'
+      env:
+        CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+```
+
+Release to main site, when changes are merged to master.
+
+`.github/workflows/deploy.yml`
+
+```yaml
+name: Build & Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: 'latest'
+        extended: true
+
+    - name: Build site
+      run: hugo --minify --gc
+
+    - name: Publish to Workers Sites
+      uses: cloudflare/wrangler-action@1.3.0
+      with:
+        apiToken: ${{ secrets.CF_API_TOKEN }}
+        environment: 'production'
+      env:
+        CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+```
