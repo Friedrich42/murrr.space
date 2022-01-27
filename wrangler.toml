@@ -1,3 +1,4 @@
+compatibility_date = "2021-09-12"
 type = 'webpack'
 usage_model = ''
 target_type = "webpack"
@@ -10,6 +11,7 @@ entry-point = "workers-site"
 name = "murrr-space-dev"
 usage_model = ''
 workers_dev = true
+route = 'dev.murrr.space/*'
 
 [env.production]
 name = "murrr-space"
