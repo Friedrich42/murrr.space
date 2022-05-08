@@ -1,7 +1,7 @@
 ---
 title: "How to create a tech blog"
 date: 2021-09-12T21:18:57+04:00
-lastmod: 2022-05-08T21:41:53+03:00
+lastmod: 2022-05-08T22:05:50+03:00
 author: "Murr Kyuri"
 slug: "how-to-create-a-tech-blog"
 draft: false
@@ -71,24 +71,44 @@ Go to your project's folder
 cd blogg
 ```
 
-Add your theme as git submodule and to config.toml
+Add your theme as git submodule
 ```bash
 git submodule add git@github.com:WingLim/hugo-tania.git themes/hugo-tania
 ```
 
-Then add you `config.toml` file
-```toml
-baseURL = "https://blogg.domain/"
-languageCode = "en-us"
-title = "Blogg blog"
-theme= "hugo-tania"
-titleEmoji = "🐱"
+Then add you `config.yaml` file
+```yaml
+baseURL : "https://blogg.domain/"
+languageCode : "en-us"
+title : "Murmur blog"
+theme : "hugo-tania"
 
-[markup]
-[markup.highlight]
-  noClasses = false
-  lineNos = true
+markup:
+  highlight:
+    noClasses : false
+    lineNos : true
+
+params:
+  titleEmoji : "🐱"
+  enableFootnotes: true
+  siteName: blogg.domain
+  siteDesc: For demonstration purposes
+  author: Murr Kyuri
+  maxCategoryToShow: 10
+  socialOptions:
+    github: https://github.com/_/blogg
+  comments: # Optional. You can delete this section at all.
+    enabled: true
+    provider: giscus
+    giscus:
+      repo: blogg
+      id: value from giscus # get from https://giscus.app/
+      category:
+        name: General
+        id: value from giscus
 ```
+
+If you want to have comments on your blog, you'll need to enable [github discussions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository) and add ids from giscus.app to config.yaml
 
 Now you should be able to preview you site.
 ```bash
