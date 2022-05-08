@@ -1,9 +1,9 @@
 # How to contribute
 
-* Fork a branch from develop, see [Branch naming](#branch-naming)
+* Fork a branch from master, see [Branch naming](#branch-naming)
 * Do your edits, see [Local development](#local-development)
-* Commit to your branch
-* Open a PR to develop branch
+* Add commits to your branch
+* Open a PR to master branch
 
 
 ## Branch naming
