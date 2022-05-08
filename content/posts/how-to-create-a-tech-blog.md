@@ -2,6 +2,7 @@
 title: "How to create a tech blog"
 date: 2021-09-12T21:18:57+04:00
 lastmod: 2022-05-08T21:41:53+03:00
+author: "Murr Kyuri"
 slug: "how-to-create-a-tech-blog"
 draft: false
 categories:
@@ -20,7 +21,7 @@ This article will show step by step how to create a blog just like this one.
 ## Assumptions
 
 * You can work with terminal (bash, zsh, fish, etc.).
-* You can work with [git](https://git-scm.com/) and familiar with [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+* You can work with [git](https://git-scm.com/) and familiar with [trunk git flow](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development).
 * You are familiar with [cloudflare](https://www.cloudflare.com/), ideally worked with it earlier and your domain is parked on cloudflare.
 * You are familiar with [hugo](https://gohugo.io/)
 
@@ -36,7 +37,7 @@ Hugo is a cli tool that compiles `.md` files into static files that you can serv
 It is very easy to start working with hugo,
 you can check its [getting started article](https://gohugo.io/getting-started/quick-start/).
 
-I am opinionated that git flow is very good for such kind of development as blog,
+I am opinionated that trunk flow is very good for such kind of development as blog,
 so I am hosting my blog on github and using github actions to deploy it.
 When it comes to serving, I think cloudflare workers are the best match for start.
 You can use quota up to 100,000 requests per day, which is more than enough for beginning.
@@ -52,8 +53,8 @@ Our site's name will be blogg, just substitute it with whatever you're going to 
 Open your terminal and run:
 
 ```bash
-$ hugo new site blogg
-$ git init
+hugo new site blogg
+git init
 ```
 This will create a new hugo site and initialize git repository in it.
 
@@ -67,18 +68,31 @@ Click on green `Code` button, choose `HTTPS` and click copy button
 
 Go to your project's folder
 ```bash
-$ cd blogg
+cd blogg
 ```
 
 Add your theme as git submodule and to config.toml
 ```bash
-$ git submodule add git@github.com:WingLim/hugo-tania.git themes/hugo-tania
-$ echo theme = \"hugo-tania\" >> config.toml
+git submodule add git@github.com:WingLim/hugo-tania.git themes/hugo-tania
+```
+
+Then add you `config.toml` file
+```toml
+baseURL = "https://blogg.domain/"
+languageCode = "en-us"
+title = "Blogg blog"
+theme= "hugo-tania"
+titleEmoji = "🐱"
+
+[markup]
+[markup.highlight]
+  noClasses = false
+  lineNos = true
 ```
 
 Now you should be able to preview you site.
 ```bash
-$ hugo serve
+hugo serve
 ```
 You will see output like
 ```
@@ -90,7 +104,7 @@ Open [the address](http://localhost:1313/) in your browser and you should see yo
 ### Push to git
 
 Add a file named `.gitignore` with following contents to your project folder
-```gitignore
+```md
 # Created by https://www.toptal.com/developers/gitignore/api/hugo
 # Edit at https://www.toptal.com/developers/gitignore?templates=hugo
 
@@ -142,7 +156,7 @@ Add your secrets to repository by pressing `New repository secret`.
 Return to your terminal. Now you need to authorize your wrangler cli.
 Run
 ```bash
-$ wrangler login
+wrangler login
 ```
 This will open a browser window, where you should confirm that you want to authorize the application.
 
@@ -170,7 +184,7 @@ Substitute `name` keys in `env.staging` and `env.production`; also substitute `r
 
 Run
 ```bash
-$ hugo --minify --gc
+hugo --minify --gc
 ```
 
 This will create a static build of the site.
@@ -185,8 +199,8 @@ export CF_ZONE_ID=value you got from cloudflare
 
 Then you need to run
 ```bash
-$ wrangler build # <-- build worker
-$ wrangler publish -c wrangler.toml --env production # <-- publish your site to worker
+wrangler build # <-- build worker
+wrangler publish -c wrangler.toml --env production # <-- publish your site to worker
 ```
 
 At this stage you should be able to view the site on your domain.
@@ -198,7 +212,7 @@ As I mentioned earlier we will use github actions for CI/CD.
 Basically you've already done most of the work, now you just need to add 2 files to your repository.
 
 
-Deploy to staging when pull request is created against develop branch.
+Deploy to staging when pull request is created against master branch.
 
 `.github/workflows/deploy-staging.yml`
 
@@ -208,7 +222,7 @@ name: Build & Publish to staging
 on:
   pull_request:
     branches:
-      - develop
+      - master
 
 jobs:
   build:
@@ -279,4 +293,4 @@ jobs:
 ## Conclusion
 
 This article is a complete guide on how to create a blog using hugo 
-and cloudflare workers with github actions as CI/CD.
+and cloudflare workers with github actions as CI/CD
