@@ -2,6 +2,7 @@
 title: "How to create a tech blog"
 date: 2021-09-12T21:18:57+04:00
 lastmod: 2021-09-13T06:18:06+04:00
+author: "Murr Kyuri"
 slug: "how-to-create-a-tech-blog"
 draft: false
 categories:
@@ -52,8 +53,8 @@ Our site's name will be blogg, just substitute it with whatever you're going to 
 Open your terminal and run:
 
 ```bash
-$ hugo new site blogg
-$ git init
+hugo new site blogg
+git init
 ```
 This will create a new hugo site and initialize git repository in it.
 
@@ -67,18 +68,31 @@ Click on green `Code` button, choose `HTTPS` and click copy button
 
 Go to your project's folder
 ```bash
-$ cd blogg
+cd blogg
 ```
 
 Add your theme as git submodule and to config.toml
 ```bash
-$ git submodule add git@github.com:WingLim/hugo-tania.git themes/hugo-tania
-$ echo theme = \"hugo-tania\" >> config.toml
+git submodule add git@github.com:WingLim/hugo-tania.git themes/hugo-tania
+```
+
+Then add you `config.toml` file
+```toml
+baseURL = "https://blogg.domain/"
+languageCode = "en-us"
+title = "Blogg blog"
+theme= "hugo-tania"
+titleEmoji = "🐱"
+
+[markup]
+[markup.highlight]
+  noClasses = false
+  lineNos = true
 ```
 
 Now you should be able to preview you site.
 ```bash
-$ hugo serve
+hugo serve
 ```
 You will see output like
 ```
@@ -90,7 +104,7 @@ Open [the address](http://localhost:1313/) in your browser and you should see yo
 ### Push to git
 
 Add a file named `.gitignore` with following contents to your project folder
-```gitignore
+```md
 # Created by https://www.toptal.com/developers/gitignore/api/hugo
 # Edit at https://www.toptal.com/developers/gitignore?templates=hugo
 
@@ -142,7 +156,7 @@ Add your secrets to repository by pressing `New repository secret`.
 Return to your terminal. Now you need to authorize your wrangler cli.
 Run
 ```bash
-$ wrangler login
+wrangler login
 ```
 This will open a browser window, where you should confirm that you want to authorize the application.
 
@@ -170,7 +184,7 @@ Substitute `name` keys in `env.staging` and `env.production`; also substitute `r
 
 Run
 ```bash
-$ hugo --minify --gc
+hugo --minify --gc
 ```
 
 This will create a static build of the site.
@@ -185,8 +199,8 @@ export CF_ZONE_ID=value you got from cloudflare
 
 Then you need to run
 ```bash
-$ wrangler build # <-- build worker
-$ wrangler publish -c wrangler.toml --env production # <-- publish your site to worker
+wrangler build # <-- build worker
+wrangler publish -c wrangler.toml --env production # <-- publish your site to worker
 ```
 
 At this stage you should be able to view the site on your domain.

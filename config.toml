@@ -3,3 +3,9 @@ languageCode = "en-us"
 title = "Murmur blog"
 theme= "hugo-tania"
 titleEmoji = "🐱"
+
+[markup]
+[markup.highlight]
+  noClasses = false
+  lineNos = true
+
