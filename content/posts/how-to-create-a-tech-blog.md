@@ -1,7 +1,7 @@
 ---
 title: "How to create a tech blog"
 date: 2021-09-12T21:18:57+04:00
-lastmod: 2021-09-13T06:18:06+04:00
+lastmod: 2022-05-08T21:41:53+03:00
 slug: "how-to-create-a-tech-blog"
 draft: false
 categories:
