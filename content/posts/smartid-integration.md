@@ -2,7 +2,7 @@
 title: "How to integrate SmartID to your python project"
 date: 2022-05-08T20:55:23+03:00
 lastmod: 2022-05-08T20:55:26+03:00
-slug: "estonian-id-systems-integration"
+slug: "smart-id-system-integration"
 draft: false
 author: "Murr Kyuri"
 categories:
