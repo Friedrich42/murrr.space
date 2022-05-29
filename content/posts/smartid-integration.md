@@ -22,34 +22,34 @@ Recently I had a chance to work with Estonian identification systems. It was an 
 
 Estonian id systems provide examples in java, .net, and php, but none of these languages collide with my tech stack, so I decided to use python.
 
-We will not talk about digital signing in this article, but instead focus on authentication with Web eID.
+We will not talk about digital signing in this article but instead, focus on authentication with Web eID.
 
-You can think of SmartID or MobileID systems as firebase, but much more complex one.
+You can think of the SmartID system as Firebase, but much more complex one.
 
-This will be the first article of series Estonian Identity Systems. In the next ones we will talk about MobileID, ID card, and much more.
+This will be the first article of the series Estonian Identity Systems. In the next ones, we will talk about MobileID, ID card, and much more.
 
 
 ## SmartID
 
 SmartID is a system that doesn't depend on your ID card or phone number.
-It has an application that client installs on his/her device and verifies the code, entering PIN1.
+It has an application that the client installs on their device and verifies the code, entering PIN1.
 
-From a developer perspective the process consists of three stages:
+From a developer's perspective the process consists of three stages:
 * [Initial request from backend to SmartID servers to create a session](#session-creation)
 * User confirmation of code in the SmartID app.
 * [Polling from backend to get result](#session-polling)
 
 Terminology:
 * ID code is a national identification number, which is also called social security number.
-* SmartID servers or relying party are servers that your backend application will send requests to.
+* SmartID servers(or relying party) are servers that your backend application will send requests to.
 
 ### Session creation
 
 To make this request first thing you need is to ask user's country and ID code.
 
-Also you need is a cryptographically safe random value.
-You need to compute SHA hash of the value and then encode the result to base64.
-You can use SHA 256, 384 or 512. I'll use 256 in these examples.
+Also, you need cryptographically safe random value.
+You need to compute the SHA hash of the value and then encode the result to base64.
+You can use SHA 256, 384, or 512. I'll use 256 in these examples.
 
 The final pseudocode looks like `base64encode(sha256(random()))`.
 You can refer to [documentation](https://github.com/SK-EID/smart-id-documentation#23121-sending-authentication-request) for more information.
@@ -64,14 +64,14 @@ random_data = base64.b64encode(random_sha256).decode()
 ```
 
 The next thing you need is relying party information. I'll use DEMO and empty UUID value for demo purposes.
-You can easily work with demo environment, so it is easier to test everything before release, but you will need to acquire real values for production use.
+You can easily work with a demo environment, so it is easier to test everything before release, but you will need to acquire real values for production use.
 You can refer to [documentation](https://github.com/SK-EID/smart-id-documentation#22-relying-party-rest-interface) for more information.
 
-SmartID uses allowedInteractionsOrder parameter to list interactions that should be available to client.
-Not all app versions can support all interactions though. The Smart-ID server is aware of which app installations support which interactions. When processing an RP request the first interaction supported by the app is taken from allowedInteractionsOrder list and sent to client.
+SmartID uses allowedInteractionsOrder parameter to list interactions that should be available to the client.
+Not all app versions can support all interactions though. The Smart-ID server is aware of which app installations support which interactions. When processing an RP request the first interaction supported by the app is taken from allowedInteractionsOrder list and sent to the client.
 For more details refer to [documentation](https://github.com/SK-EID/smart-id-documentation#237-allowed-interactions-order)
 
-Finally after collecting all the data, you have the body of your request to the relying party.
+Finally, after collecting all the data, you have the body of your request to the relying party.
 
 ```python
 request_verification_code_data = {
@@ -93,10 +93,10 @@ request_verification_code_data = {
 }
 ```
 
-You should send a POST request to https://sid.demo.sk.ee/smart-id-rp/v2, for demo purposes. You will need a production URL for live system.
+You should send a POST request to https://sid.demo.sk.ee/smart-id-rp/v2, for demo purposes. You will need a production URL for the live system.
 
 
-The final request should look like:
+The final request should look like this:
 ```python
 import requests
 
@@ -106,18 +106,18 @@ res = requests.post(
 )
 ```
 
-You should receive 200 status code and sessionID key in response [if everything was done correctly](https://github.com/SK-EID/smart-id-documentation#233-http-status-code-usage.
+You should receive `200 OK` status code and a sessionID key in response [if everything was done correctly](https://github.com/SK-EID/smart-id-documentation#233-http-status-code-usage.
 
-example response should look like:
+example response should look like this:
 ```json
 {
   "sessionID": "de305d54-75b4-431b-adb2-eb6b9e546014"
 }
 ```
 
-You need to store that sessionID in some kind of database along with user ID code. I would suggest to use something like redis or memcached, because these values have TTL.
+You need to store that sessionID in some kind of database along with the user ID code. I would suggest using something like Redis or Memcached because these values have TTL.
 
-Also you need to return a verification code to user, which is computed from random value that you generated in the beginning.
+Also, you need to return a verification code to the user, which is computed from a random value that you generated in the beginning.
 
 ```python
 def get_verification_code(hash_value) -> str:
@@ -150,7 +150,7 @@ After you sent the verification code to the user, he needs to confirm it in the 
 
 Relying party server will return a certificate, which you need to parse and verify.
 
-Here is a code example on how to parse certificate:
+Here is a code example of how to parse a certificate:
 
 ```python
 from asn1crypto.x509 import Certificate as Asn1CryptoCertificate
@@ -196,7 +196,7 @@ class CertificateHolderInfo:
         )
 ```
 
-Overall polling process looks like:
+Overall polling process looks like this:
 ```python
 import pyasice
 
@@ -227,7 +227,7 @@ user_data = CertificateHolderInfo.from_certificate(base64.b64decode(data['cert']
 ## Conclusion
 
 This was the first article about Estonian Identity Systems. At least two more are coming: about MobileID and ID card integration.
-Please, leave comments in discussion section if you have any constructive criticism.
+Please, leave comments in the discussion section if you have any constructive criticism.
 
 ## Reference
 * [Web eID](https://www.id.ee/en/article/web-eid/)
