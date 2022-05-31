@@ -106,6 +106,9 @@ params:
       category:
         name: General
         id: value from giscus
+
+outputs:
+  home: ["HTML", "RSS", "JSON"]
 ```
 
 If you want to have comments on your blog, you'll need to enable [github discussions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository) and add ids from giscus.app to config.yaml
