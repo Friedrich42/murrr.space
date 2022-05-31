@@ -26,3 +26,7 @@ params:
       category:
         name: General
         id: DIC_kwDOFivI-84CO_uv
+
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+
