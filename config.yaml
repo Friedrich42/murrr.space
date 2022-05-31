@@ -1,0 +1,28 @@
+baseURL : "https://murrr.space/"
+languageCode : "en-us"
+title : "Murmur blog"
+theme : "hugo-tania"
+
+markup:
+  highlight:
+    noClasses : false
+    lineNos : true
+
+params:
+  titleEmoji : "🐱"
+  enableFootnotes: true
+  siteName: murrr.space
+  siteDesc: This is my personal blog, for which I don't have enough time.
+  author: Murr Kyuri
+  maxCategoryToShow: 10
+  socialOptions:
+    github: https://github.com/Friedrich42/murrr.space
+  comments:
+    enabled: true
+    provider: giscus
+    giscus:
+      repo: Friedrich42/murrr.space
+      id: MDEwOlJlcG9zaXRvcnkzNzE5NjgyNTE=
+      category:
+        name: General
+        id: DIC_kwDOFivI-84CO_uv

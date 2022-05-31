@@ -1,5 +1,0 @@
-baseURL = "https://murrr.space/"
-languageCode = "en-us"
-title = "Murmur blog"
-theme= "hugo-tania"
-titleEmoji = "🐱"
