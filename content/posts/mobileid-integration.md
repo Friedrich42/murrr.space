@@ -18,13 +18,13 @@ description: "Guide to integration MobileID system to your python project"
 
 ## Abstract
 
-This is the second article of series Estonian Identity Systems. Here we will talk about MobileID service integration.
+This is the second article of the series Estonian Identity Systems. Here we will talk about MobileID service integration.
 
 Estonian id systems provide examples in java, .net, and php, but none of these languages collide with my tech stack, so I decided to use python.
 
 We will not talk about digital signing in this article but instead, focus on authentication with Web eID.
 
-MobileID system is very alike to SmartID from developer's perspective.
+MobileID system is very alike to SmartID from a developer's perspective.
 You might want to read the first article of the series 
 ["How to integrate SmartID to your python project"](/posts/smart-id-system-integration) if you haven't done it yet.
 
@@ -48,7 +48,7 @@ Terminology:
 
 To make this request first thing you need is to ask user's mobile number and ID code.
 
-Also, you need cryptographically safe random value.
+Also, you need a cryptographically safe random value.
 You need to compute the SHA hash of the value and then encode the result to base64.
 You can use SHA 256, 384, or 512. I'll use 256 in these examples.
 
@@ -219,7 +219,8 @@ user_data = CertificateHolderInfo.from_certificate(cert_value)
 
 ## Conclusion
 
-This was the second article about Estonian Identity Systems. In the next article we'll talk about ID card integration.
+This was the second article about Estonian Identity Systems. 
+In the next article, we'll talk about ID card integration.
 Please, leave comments in the discussion section if you have any constructive criticism.
 
 ## Reference
