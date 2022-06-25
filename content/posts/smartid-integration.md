@@ -106,7 +106,7 @@ res = requests.post(
 )
 ```
 
-You should receive `200 OK` status code and a sessionID key in response [if everything was done correctly](https://github.com/SK-EID/smart-id-documentation#233-http-status-code-usage.
+You should receive `200 OK` status code and a sessionID key in response [if everything was done correctly](https://github.com/SK-EID/smart-id-documentation#233-http-status-code-usage).
 
 example response should look like this:
 ```json
@@ -141,6 +141,7 @@ def get_verification_code(hash_value) -> str:
     return f"{raw_value:04}"
 
 # SEND vc TO USER
+# Usually sent to frontend where it is shown to user
 vc = get_verification_code(random_sha256)
 ```
 
